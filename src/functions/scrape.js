@@ -5,6 +5,7 @@ async function scrape (code, channel) {
   let error = false
   let title = ''
   let result = ''
+  let image = ''
   const data = await axios.get(`http://www.scpwiki.com/scp-${code}`).catch(e => {
     if (e) {
       channel.send('error : scp not found')
@@ -19,6 +20,8 @@ async function scrape (code, channel) {
 
     title = `${document.querySelector('#page-title').textContent.trim()}`
     const bodyRaw = Array.from(document.querySelector('#page-content').children)
+    image = bodyRaw[1].childNodes[0].getAttribute('src')
+
     let body = ''
     for (let i = 2; i < bodyRaw.length - 2; i++) {
       body.replace(/(\+|-) show block/, '')
@@ -29,7 +32,7 @@ async function scrape (code, channel) {
     result = `\`${title}\`` + '\n' + body
   }
 
-  return { title, result }
+  return { title, result, image }
 }
 
 module.exports.scrape = scrape
