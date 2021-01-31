@@ -17,9 +17,9 @@ client.on('message', (message) => {
 
       if (outputMode === 'message' || outputMode === 'audio' || outputMode === 'text') {
         if (mode === 'random') {
-          scrape(rng(), message.channel).then(({ title, result }) => outputs(title, result, outputMode, message.channel))
+          scrape(rng(), message.channel).then(({ title, result, image }) => outputs(title, result, outputMode, message.channel, image))
         } else if (typeof (parseInt(mode)) === 'number') {
-          scrape(mode, message.channel).then(({ title, result }) => outputs(title, result, outputMode, message.channel))
+          scrape(mode, message.channel).then(({ title, result, image }) => outputs(title, result, outputMode, message.channel, image))
         } else {
           message.channel.send('error : invalid code or mode')
         }
@@ -34,6 +34,12 @@ client.on('message', (message) => {
 client.on('message', (message) => {
   if (message.content.trim() === '!h') {
     message.channel.send('HELP PAGE \n========== \nbot is bound to !s\n> Specify a mode for getting your SCP `random` or an SCP number\n> Specify an output mode at the back of your command, either  `message` , `text`, or `audio`\n shorthand command `!s mode|number` will send messages by default ')
+  }
+})
+
+client.on('message', (message) => {
+  if (message.content.trim() === '!i') {
+    message.channel.send('picture', { embed: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.planetware.com%2Fpictures%2Ffrance-f.htm&psig=AOvVaw0ynrW1F_847wsA7geNK_l4&ust=1612146130067000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKiEz72Oxe4CFQAAAAAdAAAAABAD' })
   }
 })
 
