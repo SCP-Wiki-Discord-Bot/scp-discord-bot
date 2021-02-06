@@ -8,7 +8,7 @@ client.on('ready', () => console.log('discord bot connected'))
 
 client.on('message', (message) => {
   const commands = message.content.split(' ')
-  if (commands[0] === '!s') {
+  if (commands[0] === '!scp') {
     message.channel.send('SCP discord bot at your service, please type `!h` for help')
 
     if (commands.length === 2 || commands.length === 3) {
@@ -17,9 +17,9 @@ client.on('message', (message) => {
 
       if (outputMode === 'message' || outputMode === 'audio' || outputMode === 'text') {
         if (mode === 'random') {
-          scrape(rng(), message.channel).then(({ title, result, image }) => outputs(title, result, outputMode, message.channel, image))
+          scrape(rng(), message.channel).then(({ title, text }) => outputs(title, text, outputMode, message.channel))
         } else if (typeof (parseInt(mode)) === 'number') {
-          scrape(mode, message.channel).then(({ title, result, image }) => outputs(title, result, outputMode, message.channel, image))
+          scrape(mode, message.channel).then(({ title, text }) => outputs(title, text, outputMode, message.channel))
         } else {
           message.channel.send('error : invalid code or mode')
         }
