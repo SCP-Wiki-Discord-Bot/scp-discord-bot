@@ -1,38 +1,36 @@
 const axios = require('axios')
 const { JSDOM } = require('jsdom')
 
-async function scrape (code, channel) {
-  let error = false
-  let title = ''
-  let result = ''
-  let image = ''
-  const data = await axios.get(`http://www.scpwiki.com/scp-${code}`).catch(e => {
-    if (e) {
-      channel.send('error : scp not found')
-      error = true
-    }
-  })
+async function scrape (code) {
+  const url = `http://www.scpwiki.com/scp-${code}`
+  const title = `scp-${code}`
+  let text = ''
+  await axios.get(url)
+    .then(d => {
+      if (d.status !== 200) {
+        console.log('not found')
+      } else {
+        const { document } = (new JSDOM(d.data)).window
+        const pageContainer = document.getElementById('page-content')
+        const pageContent = Array.from(pageContainer.children)
 
-  if (!error) {
-    const dom = new JSDOM(data.data)
+        for (let i = 2; i < pageContent.length - 2; i++) {
+          if (pageContent[i].textContent !== undefined && pageContent[i].tagName !== 'div') {
+            text += pageContent[i].textContent += '\n'
+          }
+        }
+      }
+    })
+    .catch(e => {
+      console.log(e)
+    })
 
-    const { document } = dom.window
-
-    title = `${document.querySelector('#page-title').textContent.trim()}`
-    const bodyRaw = Array.from(document.querySelector('#page-content').children)
-    image = bodyRaw[1].childNodes[0].getAttribute('src')
-
-    let body = ''
-    for (let i = 2; i < bodyRaw.length - 2; i++) {
-      body.replace(/(\+|-) show block/, '')
-      body += bodyRaw[i].textContent
-      body += '\n'
-    }
-
-    result = `\`${title}\`` + '\n' + body
-  }
-
-  return { title, result, image }
+  text = text.replace('Item #:', '`Item #:`')
+  text = text.replace('Object Class:', '> Object Class:')
+  text = text.replace('Special Containment Procedures:', '\n`Special Containment Procedures:`')
+  text = text.replace('Description:', '\n`Description:`')
+  text = text.replace('Addendum', '`Addendum`')
+  return { title, text }
 }
 
 module.exports.scrape = scrape
