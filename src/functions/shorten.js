@@ -1,4 +1,7 @@
 function shorten (str, size) {
+  /*
+    shortens content into blocks of specified size
+  */
   const numChunks = Math.ceil(str.length / size)
   const chunks = new Array(numChunks)
 
