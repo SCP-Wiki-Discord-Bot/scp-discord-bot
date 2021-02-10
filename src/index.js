@@ -19,7 +19,7 @@ client.on('message', (message) => {
 
   // checking key binding
   if (binding === '!scp') {
-    message.channel.send(msg.ready[Math.floor(Math.random() * (3 - 0)) + 0])
+    message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     // check for modes
     if (mode === 'random') {
       // checking output mode
@@ -49,7 +49,7 @@ client.on('message', (message) => {
       .setTitle('HELP PAGE')
       .setDescription(msg.help)
     message.channel.send(embed)
-  } 
+  }
 })
 
 client.on('message', (message) => {
