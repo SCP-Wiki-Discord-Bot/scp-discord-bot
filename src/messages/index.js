@@ -4,12 +4,7 @@ const messages = {
     'Yes sir, retrieving archives from ████████',
     'SCP bot activated, searching for top secret files stored in site-████',
     'Anything for you commander, downloading files at Ip ████████',
-<<<<<<< HEAD
     'Noted, delivering requested files to user ████████'
-=======
-    'Noted, delivering requested files to user ████████',
-    
->>>>>>> 669e18ccd65b5c73fdebaa3c285ad924f8da0e64
   ]
 }
 
