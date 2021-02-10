@@ -3,43 +3,42 @@ const client = new Discord.Client()
 const { scrape } = require('./functions/scrape')
 const rng = require('./functions/rng')
 const outputs = require('./functions/outputs')
+const suggest = require('./functions/suggestions')
 
 // notifies that the bot is ready to be used
 client.on('ready', () => console.log('discord bot connected'))
 
 client.on('message', (message) => {
   // parsing message commands
-  const commands = message.content.split(' ')
-  if (commands[0] === '!scp') {
-    // checks for binding
-    message.channel.send('SCP discord bot at your service, please type `!h` for help') // notifies users that the bot is here
+  const commands = message.content.toLowerCase().split(' ')
+  const binding = commands[0] // must be !scp
+  const mode = commands[1] // must be `random` a number or `suggest`
+  const outputMode = commands[2] || 'message'
 
-    if (commands.length === 2 || commands.length === 3) {
-      // making the command more flexible
-      const mode = !commands[1] ? 'none' : commands[1]
-      const outputMode = commands[2] || 'message'
-      // default command === message output mode
-
-      if (outputMode === 'message' || outputMode === 'audio' || outputMode === 'text') {
-        if (mode === 'random') {
-          // passes random number if random command called
-          // after scraping, it returns value to the output function
-          scrape(rng(), message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
-        } else if (typeof (parseInt(mode)) === 'number') {
-          // checks for the validity of the scp code
-          scrape(mode, message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
-        } else {
-          // if not found, return an error to the user
-          message.channel.send('error : invalid code or mode')
-        }
+  // checking key binding
+  if (binding === '!scp') {
+    // check for modes
+    if (mode === 'random') {
+      // checking output mode
+      if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
+        scrape(rng(), message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
       } else {
-        // and if the output command is wrong, send and error to the user
         message.channel.send('error : invalid output mode')
       }
+    } else if (isNaN(mode) === false) {
+      // checking output mode
+      if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
+        scrape(mode, message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
+      } else {
+        message.channel.send('error : invalid output mode')
+      }
+    } else if (mode === 'suggest') {
+      suggest(message.channel)
+    } else {
+      message.channel.send('error : invalid scp selection mode')
     }
   }
-}
-)
+})
 
 client.on('message', (message) => {
   if (message.content.trim() === '!h') {
@@ -49,3 +48,5 @@ client.on('message', (message) => {
 
 // auth for the discord bot
 client.login(process.env.TOKEN)
+
+// return scrape(rng(), message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
