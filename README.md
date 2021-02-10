@@ -15,4 +15,14 @@ bring the SCP stories into discord servers
 - bound to `!scp` command
 - use `!h` to get help and guides 
  
+ ## Development Instructions
+ 1. Create a discord bot at https://discord.com/developers/applications,
+ 2. copy the bot token
+ 3. clone the repo
+ 4. export *TOKEN=your_bot_token* in your terminal
+ 5. npm install
+ 6. npm run dev
+ 
 > author: Ronald Pang Vee Jen
+
+> colaborator : Ryan
