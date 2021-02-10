@@ -45,8 +45,11 @@ client.on('message', (message) => {
 
 client.on('message', (message) => {
   if (message.content.trim() === '!h') {
-    message.channel.send(msg.help)
-  }
+    const embed = new Discord.MessageEmbed()
+      .setTitle('HELP PAGE')
+      .setDescription(msg.help)
+    message.channel.send(embed)
+  } 
 })
 
 client.on('message', (message) => {
