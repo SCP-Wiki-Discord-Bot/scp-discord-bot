@@ -48,5 +48,3 @@ client.on('message', (message) => {
 
 // auth for the discord bot
 client.login(process.env.TOKEN)
-
-// return scrape(rng(), message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
