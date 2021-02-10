@@ -23,6 +23,10 @@ bring the SCP stories into discord servers
  5. npm install
  6. npm run dev
  
+ ## Reminders 
+ - please use eslint to lint your code before comitting, you can use the *npm run lint* command
+ - be sure to comment your code with helpful messages and explinations to make sure other people can pick up where you left off
+ 
 > author: Ronald Pang Vee Jen
 
 > colaborator : Ryan
