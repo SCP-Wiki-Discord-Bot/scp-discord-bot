@@ -4,6 +4,8 @@ const { scrape } = require('./functions/scrape')
 const rng = require('./functions/rng')
 const outputs = require('./functions/outputs')
 const suggest = require('./functions/suggestions')
+const msg = require('./messages/index')
+const sendClasses = require('./functions/send-classes')
 
 // notifies that the bot is ready to be used
 client.on('ready', () => console.log('discord bot connected'))
@@ -17,6 +19,7 @@ client.on('message', (message) => {
 
   // checking key binding
   if (binding === '!scp') {
+    message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     // check for modes
     if (mode === 'random') {
       // checking output mode
@@ -42,7 +45,22 @@ client.on('message', (message) => {
 
 client.on('message', (message) => {
   if (message.content.trim() === '!h') {
-    message.channel.send('HELP PAGE \n========== \nbot is bound to !scp\n> Specify a mode for getting your SCP `random` or an SCP number\n> Specify an output mode at the back of your command, either  `message` , `text`, or `audio`\n shorthand command `!s mode|number` will send messages by default ')
+    const embed = new Discord.MessageEmbed()
+      .setTitle('HELP PAGE')
+      .setDescription(msg.help)
+    message.channel.send(embed)
+  }
+})
+
+client.on('message', (message) => {
+  const commands = message.content.split(' ')
+  const binding = commands[0]
+  const mode = commands[1]
+  if (binding === '!class') {
+    const result = sendClasses(mode, message.channel)
+    if (result === 'class not found') {
+      message.channel.send(`error: ${result}`)
+    }
   }
 })
 
