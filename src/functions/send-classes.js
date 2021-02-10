@@ -15,7 +15,7 @@ function sendClass (mode, channel) {
       .setDescription(chosen.explination)
       .setURL(chosen.list)
     return channel.send(embed)
-  } else if (mode === null || mode === undefined) {
+  } else {
     return 'class not found'
   }
 }
