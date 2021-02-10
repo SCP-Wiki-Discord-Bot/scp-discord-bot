@@ -4,15 +4,17 @@ const classes = require('../messages/scp-classes')
 function sendClass (mode, channel) {
   if (classes[mode]) {
     const embed = new Discord.MessageEmbed()
-      .setTitle(mode)
-      .setDescription(classes[mode].explination)
+      .setTitle(classes[mode].title)
+      .setDescription(classes[mode].explanation)
+      .setThumbnail(classes[mode].imgSrc)
       .setURL(classes[mode].list)
     return channel.send(embed)
   } else if (mode === 'random') {
     const chosen = randomClass(classes)
     const embed = new Discord.MessageEmbed()
       .setTitle(chosen.title)
-      .setDescription(chosen.explination)
+      .setDescription(chosen.explanation)
+      .setThumbnail(chosen.imgSrc)
       .setURL(chosen.list)
     return channel.send(embed)
   } else if (mode.toLowerCase() === 'list') {

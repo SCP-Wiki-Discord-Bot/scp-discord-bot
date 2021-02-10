@@ -8,7 +8,10 @@ const msg = require('./messages/index')
 const sendClasses = require('./functions/send-classes')
 
 // notifies that the bot is ready to be used
-client.on('ready', () => console.log('discord bot connected'))
+client.on('ready', () => {
+  console.log('discord bot connected')
+  client.user.setActivity('the 05 Council', { type: 'LISTENING' })
+})
 
 client.on('message', (message) => {
   // parsing message commands
@@ -55,7 +58,7 @@ client.on('message', (message) => {
 client.on('message', (message) => {
   const commands = message.content.split(' ')
   const binding = commands[0]
-  const mode = commands[1]
+  const mode = commands[1] || 'list'
   if (binding === '!class') {
     const result = sendClasses(mode, message.channel)
     if (result === 'class not found') {
