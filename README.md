@@ -1,5 +1,5 @@
 <h1 align="center"> 
-  Scp Wiki Discord Bot Website  
+  Scp Wiki Discord Bot
 </h1>
 
 <p align="center">
