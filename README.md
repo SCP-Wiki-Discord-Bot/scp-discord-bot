@@ -12,8 +12,10 @@ bring the SCP stories into discord servers
 ## Features
 - provides the option to send SCPs in the form of `text files`, `audio files` or `discord messages` 
 
-- bound to `!scp` command
-- use `!h` to get help and guides 
+- use `!scp` command to get scps  
+- use `!h` to get help and guides
+- use `!class` to get scp classifications and their info, `use !class name_of_class` to get individual classes
+- use `!mtf` to get information about MTF and their names, `use *!mtf name_of_mtf* ` to get the individual MTF
  
  ## Development Instructions
  1. Create a discord bot at https://discord.com/developers/applications,
