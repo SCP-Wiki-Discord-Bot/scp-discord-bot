@@ -6,6 +6,9 @@ const outputs = require('./functions/outputs')
 const suggest = require('./functions/suggestions')
 const msg = require('./messages/index')
 const sendClasses = require('./functions/send-classes')
+const scrapeMtf = require('./functions/scrape-mtf')
+const sendMtf = require('./functions/send-mtf')
+const { mtfList } = require('./messages/mtf')
 
 // notifies that the bot is ready to be used
 client.on('ready', () => {
@@ -63,6 +66,23 @@ client.on('message', (message) => {
     const result = sendClasses(mode, message.channel)
     if (result === 'class not found') {
       message.channel.send(`error: ${result}`)
+    }
+  }
+})
+
+client.on('message', (message) => {
+  const binding = message.content.substr(0, 4)
+  const mode = message.content.substr(4, message.content.length - 1).trim() || 'list'
+  if (binding === '!mtf') {
+    if (mode === 'list') {
+      const embed = new Discord.MessageEmbed()
+        .setTitle('List of MTF')
+        .setDescription(mtfList)
+      message.channel.send(embed)
+    } else {
+      scrapeMtf(message.channel).then((result) => {
+        sendMtf(result, mode, message.channel)
+      })
     }
   }
 })
