@@ -1,5 +1,21 @@
 const messages = {
-  help: 'bot is bound to ! \n\nSpecify a mode for getting your SCP `random` or an SCP number\n\nSpecify an output mode at the back of your command, either  `message` , `text`, or `audio`\n\nShorthand command `!s mode|number` will send messages by default\n\nType `!scp suggest` to get suggestions and featured scps from the wiki\n\nType !class random | className | list to get SCP classifications!\nType !mtf to get list of MTFs and !mtf name_of_mtf to get individual info',
+  help: `
+  - provides the option to send SCPs in the form of \`text files\`, \`audio files\` or \`discord messages\` 
+
+  - use \`!scp\` command to get scps, \`!scp random\` | \`!scp number_of_scp\`
+
+  - use \`!h\` to get help and guides
+
+  - use \`!class\` to get scp classifications and their info, \`use !class name_of_class\` to get individual classes
+
+  - use \`!mtf\` to get information about MTF and their names, \`use *!mtf name_of_mtf* \` to get the individual MTF
+
+  - use \`!site info\` to get a list of information about sites, \`use !site info index_of_info\` to get specified knowledge about the sites
+
+  - use \`!site search\` to get a list of SCP foundations sites, \`use !site search site_number_as_listed\` to get a specified site
+  
+  - use \`!area\` to get a list of areas under the SCP foundation, use \`area !site number_as_listed\` to get a specified site and its description
+  `,
   ready: [
     'Yes sir, retrieving archives from ████████',
     'SCP bot activated, searching for top secret files stored in site-████',
