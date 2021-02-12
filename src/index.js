@@ -117,6 +117,7 @@ client.on('message', (message) => {
 
 /* SCP FOUNDATION AREAS FUNCTION */
 client.on('message', (message) => {
+  message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
   const commands = message.content.split(' ')
   const binding = commands[0]
   const mode = commands[1] || 'list'
