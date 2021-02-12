@@ -9,6 +9,8 @@ const sendClasses = require('./functions/send-classes')
 const scrapeMtf = require('./functions/scrape-mtf')
 const sendMtf = require('./functions/send-mtf')
 const { mtfList } = require('./messages/mtf')
+const sendSite = require('./functions/send-site')
+const sendArea = require('./functions/send-area')
 
 // notifies that the bot is ready to be used
 client.on('ready', () => {
@@ -16,6 +18,7 @@ client.on('ready', () => {
   client.user.setActivity('the 05 Council', { type: 'LISTENING' })
 })
 
+/* SCP FUNCTION */
 client.on('message', (message) => {
   // parsing message commands
   const commands = message.content.toLowerCase().split(' ')
@@ -49,8 +52,10 @@ client.on('message', (message) => {
   }
 })
 
+/* HELP FUNCTION */
 client.on('message', (message) => {
   if (message.content.trim() === '!h') {
+    message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     const embed = new Discord.MessageEmbed()
       .setTitle('HELP PAGE')
       .setDescription(msg.help)
@@ -58,11 +63,13 @@ client.on('message', (message) => {
   }
 })
 
+/* SCP CLASSIFICATION FUNCTION */
 client.on('message', (message) => {
   const commands = message.content.split(' ')
   const binding = commands[0]
   const mode = commands[1] || 'list'
   if (binding === '!class') {
+    message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     const result = sendClasses(mode, message.channel)
     if (result === 'class not found') {
       message.channel.send(`error: ${result}`)
@@ -70,10 +77,12 @@ client.on('message', (message) => {
   }
 })
 
+/* MOBILE TASK FORCE FUNCTION */
 client.on('message', (message) => {
   const binding = message.content.substr(0, 4)
   const mode = message.content.substr(4, message.content.length - 1).trim() || 'list'
   if (binding === '!mtf') {
+    message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     if (mode === 'list') {
       const embed = new Discord.MessageEmbed()
         .setTitle('List of MTF')
@@ -84,6 +93,35 @@ client.on('message', (message) => {
         sendMtf(result, mode, message.channel)
       })
     }
+  }
+})
+
+/* SCP FOUNDATION SITES FUNCTION */
+client.on('message', (message) => {
+  const commands = message.content.split(' ')
+  const binding = commands[0]
+  const feature = commands[1]
+  const mode = commands[2] || 'list'
+
+  if (binding === '!site') {
+    message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
+    if (feature === 'info') {
+      sendSite('info', mode, message.channel)
+    } else if (feature === 'search') {
+      sendSite('search', mode, message.channel)
+    } else {
+      message.channel.send('error : invalid feature for SCP Foundations Sites')
+    }
+  }
+})
+
+/* SCP FOUNDATION AREAS FUNCTION */
+client.on('message', (message) => {
+  const commands = message.content.split(' ')
+  const binding = commands[0]
+  const mode = commands[1] || 'list'
+  if (binding.toLowerCase() === '!area') {
+    sendArea(mode, message.channel)
   }
 })
 
