@@ -10,7 +10,7 @@ const generalInfo = {
 
   deactivation: 'Mobile Task Forces created for the purpose of containing a particular anomaly are typically deactivated at the end of the recovery operation or when ongoing containment is deemed no longer necessary. Occasionally, such task forces remain operational if the expertise and experiences learned are considered useful for future incidents, but otherwise the task force will likely be disbanded and its personnel returned to their prior posts. Very rarely, a Mobile Task Force will also be disbanded if it suffers sufficient casualties to render it incapable of operation. In these cases, if the prior capability of that particular task force is deemed necessary, a new task force may be commissioned to replace it.'
 }
-
+// array of mtfs for ease of parsing
 const mtfList = ['MTF Alpha-1 ("Red Right Hand")',
   'MTF Alpha-4 ("Pony Express")',
   'MTF Alpha-9 ("Last Hope")',
