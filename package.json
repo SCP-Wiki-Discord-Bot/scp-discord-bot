@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "./node_modules/.bin/nodemon src/index.js",
-    "start": "node src/index.js",
+    "dev": "./node_modules/.bin/nodemon src/bot.js",
+    "start": "node src/bot.js",
     "lint": "./node_modules/.bin/eslint --fix src"
   },
   "keywords": [],

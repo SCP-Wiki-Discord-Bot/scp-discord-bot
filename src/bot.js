@@ -1,16 +1,16 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
-const { scrape } = require('./functions/scrape')
-const rng = require('./functions/rng')
-const outputs = require('./functions/outputs')
+const { scrape } = require('./functions/scp/scrape')
+const rng = require('./functions/scp/rng')
+const outputs = require('./functions/scp/outputs')
 const suggest = require('./functions/suggestions')
 const msg = require('./messages/index')
-const sendClasses = require('./functions/send-classes')
-const scrapeMtf = require('./functions/scrape-mtf')
-const sendMtf = require('./functions/send-mtf')
+const sendClasses = require('./functions/classes/send-classes')
+const scrapeMtf = require('./functions/mtf/scrape-mtf')
+const sendMtf = require('./functions/mtf/send-mtf')
 const { mtfList } = require('./messages/mtf')
-const sendSite = require('./functions/send-site')
-const sendArea = require('./functions/send-area')
+const sendSite = require('./functions/sites/send-site')
+const sendArea = require('./functions/areas/send-area')
 
 // notifies that the bot is ready to be used
 client.on('ready', () => {
@@ -86,7 +86,13 @@ client.on('message', (message) => {
     if (mode === 'list') {
       const embed = new Discord.MessageEmbed()
         .setTitle('List of MTF')
-        .setDescription(mtfList)
+      let description = ''
+      mtfList.forEach(mtf => {
+        description += `[${mtfList.indexOf(mtf)}] `
+        description += mtf
+        description += '\n'
+      })
+      embed.setDescription(description)
       message.channel.send(embed)
     } else {
       scrapeMtf(message.channel).then((result) => {

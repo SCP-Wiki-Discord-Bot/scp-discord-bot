@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const classes = require('../messages/scp-classes')
+const classes = require('../../messages/scp-classes')
 
 function sendClass (mode, channel) {
   if (classes[mode]) {

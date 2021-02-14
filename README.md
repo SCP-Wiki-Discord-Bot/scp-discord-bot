@@ -15,7 +15,7 @@ bring the SCP stories into discord servers
 - use `!scp` command to get scps, `!scp random` | `!scp number_of_scp`
 - use `!h` to get help and guides
 - use `!class` to get scp classifications and their info, `use !class name_of_class` to get individual classes
-- use `!mtf` to get information about MTF and their names, `use *!mtf name_of_mtf* ` to get the individual MTF
+- use `!mtf` to get information about MTF and their names, `use *!mtf number_as_listed* ` to get the individual MTF
 - use `!site info` to get a list of information about sites, `use !site info index_of_info` to get specified knowledge about the sites
 - use `!site search` to get a list of SCP foundations sites, `use !site search site_number_as_listed` to get a specified site
 - use `!area` to get a list of areas under the SCP foundation, use `area !site number_as_listed` to get a specified site and its description

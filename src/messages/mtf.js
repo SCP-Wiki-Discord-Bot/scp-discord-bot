@@ -11,49 +11,50 @@ const generalInfo = {
   deactivation: 'Mobile Task Forces created for the purpose of containing a particular anomaly are typically deactivated at the end of the recovery operation or when ongoing containment is deemed no longer necessary. Occasionally, such task forces remain operational if the expertise and experiences learned are considered useful for future incidents, but otherwise the task force will likely be disbanded and its personnel returned to their prior posts. Very rarely, a Mobile Task Force will also be disbanded if it suffers sufficient casualties to render it incapable of operation. In these cases, if the prior capability of that particular task force is deemed necessary, a new task force may be commissioned to replace it.'
 }
 
-const mtfList = `MTF Alpha-1 ("Red Right Hand")
-MTF Alpha-4 ("Pony Express")
-MTF Alpha-9 ("Last Hope")
-MTF Beta-4 ("Castaways")
-MTF Beta-7 ("Maz Hatters")
-MTF Gamma-5 ("Red Herrings")
-MTF Gamma-6 ("Deep Feeders")
-MTF Gamma-13 ("Asimov's Lawbringers")
-MTF Delta-5 ("Front Runners")
-MTF Epsilon-6 ("Village Idiots")
-MTF Epsilon-9 ("Fire Eaters")
-MTF Epsilon-11 ("Nine-Tailed Fox")
-MTF Zeta-9 ("Mole Rats")
-MTF Eta-4 ("Begone Thoth")
-MTF Eta-5 ("Jäeger Bombers")
-MTF Eta-10 ("See No Evil")
-MTF Eta-11 ("Savage Beasts")
-MTF Theta-4 ("Gardeners")
-MTF Theta-90 ("Angle Grinders")
-MTF Iota-10 ("Damn Feds")
-MTF Kappa-10 ("Skynet")
-MTF Lambda-4 ("Birdwatchers")
-MTF Lambda-5 ("White Rabbits")
-MTF Lambda-12 ("Pest Control")
-MTF Lambda-14 ("One Star Reviewers")
-MTF Mu-3 ("Highest Bidders")
-MTF Mu-4 ("Debuggers")
-MTF Mu-13 ("Ghostbusters")
-MTF Nu-7 ("Hammer Down")
-MTF Omicron Rho ("The Dream Team")
-MTF Pi-1 ("City Slickers")
-MTF Rho-1 ("The Professors")
-MTF Rho-9 ("Technical Support")
-MTF Rho-19 ("Cythereans")
-MTF Sigma-3 ("Bibliographers")
-MTF Sigma-66 ("Sixteen Tons")
-MTF Tau-5 ("Samsara")
-MTF Psi-7 ("Home Improvement")
-MTF Psi-8 ("The Silencers")
-MTF Omega-0 ("Ará Orún")
-MTF Omega-7 ("Pandora's Box")
-MTF Omega-12 ("Achilles' Heels")
-MTF Stigma-9 ("Evolved from Naturally Occurring Gears, Levers and Pulleys")
-Additional MTFs`
+const mtfList = ['MTF Alpha-1 ("Red Right Hand")',
+  'MTF Alpha-4 ("Pony Express")',
+  'MTF Alpha-9 ("Last Hope")',
+  'MTF Beta-4 ("Castaways")',
+  'MTF Beta-7 ("Maz Hatters")',
+  'MTF Gamma-5 ("Red Herrings")',
+  'MTF Gamma-6 ("Deep Feeders")',
+  'MTF Gamma-13 ("Asimov\'s Lawbringers")',
+  'MTF Delta-5 ("Front Runners")',
+  'MTF Epsilon-6 ("Village Idiots")',
+  'MTF Epsilon-9 ("Fire Eaters")',
+  'MTF Epsilon-11 ("Nine-Tailed Fox")',
+  'MTF Zeta-9 ("Mole Rats")',
+  'MTF Eta-4 ("Begone Thoth")',
+  'MTF Eta-5 ("Jäeger Bombers")',
+  'MTF Eta-10 ("See No Evil")',
+  'MTF Eta-11 ("Savage Beasts")',
+  'MTF Theta-4 ("Gardeners")',
+  'MTF Theta-90 ("Angle Grinders")',
+  'MTF Iota-10 ("Damn Feds")',
+  'MTF Kappa-10 ("Skynet")',
+  'MTF Lambda-4 ("Birdwatchers")',
+  'MTF Lambda-5 ("White Rabbits")',
+  'MTF Lambda-12 ("Pest Control")',
+  'MTF Lambda-14 ("One Star Reviewers")',
+  'MTF Mu-3 ("Highest Bidders")',
+  'MTF Mu-4 ("Debuggers")',
+  'MTF Mu-13 ("Ghostbusters")',
+  'MTF Nu-7 ("Hammer Down")',
+  'MTF Omicron Rho ("The Dream Team")',
+  'MTF Pi-1 ("City Slickers")',
+  'MTF Rho-1 ("The Professors")',
+  'MTF Rho-9 ("Technical Support")',
+  'MTF Rho-19 ("Cythereans")',
+  'MTF Sigma-3 ("Bibliographers")',
+  'MTF Sigma-66 ("Sixteen Tons")',
+  'MTF Tau-5 ("Samsara")',
+  'MTF Psi-7 ("Home Improvement")',
+  'MTF Psi-8 ("The Silencers")',
+  'MTF Omega-0 ("Ará Orún")',
+  'MTF Omega-7 ("Pandora\'s Box")',
+  'MTF Omega-12 ("Achilles\' Heels")',
+  'MTF Stigma-9 ("Evolved from Naturally Occurring Gears, Levers and Pulleys")',
+  'Additional MTFs'
+]
 
 module.exports = { generalInfo, mtfList }

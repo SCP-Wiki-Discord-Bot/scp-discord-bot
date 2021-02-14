@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const areas = require('../messages/areas')
+const areas = require('../../messages/areas')
 
 function sendArea (mode, channel) {
   mode = mode.toLowerCase() // make sure that mode is always lowercase
