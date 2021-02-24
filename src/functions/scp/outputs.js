@@ -22,13 +22,13 @@ function outputs (title, content, type, channel, imgSrc) {
   }
   if (type === 'text') {
     // writes the scp into a text file
-    const pathToFile = path.join(__dirname, '..', 'tmp', `${title}.txt`)
+    const pathToFile = path.join(__dirname, '..', '..', 'tmp', `${title}.txt`)
     fs.writeFileSync(pathToFile, content)
     channel.send('done', { files: [pathToFile] })
     setTimeout(() => {
-      // deletes the file after 2 seconds
+    // deletes the file after 2 seconds
       fs.unlinkSync(pathToFile)
-    }, 2000)
+    }, 5000)
   }
   if (type === 'audio') {
     // converts scp into audio
