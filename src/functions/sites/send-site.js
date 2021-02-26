@@ -9,7 +9,7 @@ function sendSite (feature, mode, channel) {
     if (mode === 'list') {
       const embed = new Discord.MessageEmbed()
         .setTitle('Table of Contents')
-      const content = '[1] Sections\n[2] Prefixes\n[3] Designations'
+      const content = '[1] Sections\n[2] Prefixes\n[3] Designations\nPlease type `!site info Name_Of_Info`'
       embed.setDescription(content)
       return channel.send(embed)
     } else {
@@ -38,6 +38,7 @@ function sendSite (feature, mode, channel) {
         listOfSites += `[${facilities.sites.indexOf(site)}] `
         listOfSites += `${site.title}\n`
       })
+      listOfSites += 'Please Type `!site search number_of_site`'
       const embed = new Discord.MessageEmbed()
         .setTitle('Index of Sites of The SCP Foundation')
         .setDescription(listOfSites)

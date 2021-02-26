@@ -12,10 +12,11 @@ const { mtfList } = require('./messages/mtf')
 const sendSite = require('./functions/sites/send-site')
 const sendArea = require('./functions/areas/send-area')
 
-// notifies that the bot is ready to be used
+// notifies that the bot is ready to be used - Dev Console
 client.on('ready', () => {
   console.log('discord bot connected')
-  client.user.setActivity('the 05 Council', { type: 'LISTENING' })
+
+  client.user.setActivity('type !h for help')
 })
 
 /* SCP FUNCTION */
@@ -92,6 +93,7 @@ client.on('message', (message) => {
         description += mtf
         description += '\n'
       })
+      description += 'Please type `!mtf number_of_mtf`'
       embed.setDescription(description)
       message.channel.send(embed)
     } else {
@@ -116,7 +118,7 @@ client.on('message', (message) => {
     } else if (feature === 'search') {
       sendSite('search', mode, message.channel)
     } else {
-      message.channel.send('error : invalid feature for SCP Foundations Sites')
+      message.channel.send('keyswords for this command are `info`, `search`')
     }
   }
 })
