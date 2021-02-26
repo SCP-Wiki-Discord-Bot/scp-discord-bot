@@ -37,17 +37,17 @@ client.on('message', (message) => {
       } else {
         message.channel.send('error : invalid output mode')
       }
-    } else if (isNaN(mode) === false) {
+    } else if (mode === 'suggest') {
+      suggest(message.channel)
+    } else if (mode) {
       // checking output mode
       if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
         scrape(mode, message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
       } else {
-        message.channel.send('error : invalid output mode')
+        return message.channel.send('error : invalid output mode')
       }
-    } else if (mode === 'suggest') {
-      suggest(message.channel)
     } else {
-      message.channel.send('error : invalid scp selection mode')
+      return message.channel.send('error : invalid scp selection mode')
     }
   }
 })
