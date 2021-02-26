@@ -12,7 +12,7 @@ bring the SCP stories into discord servers
 ## Features
 - provides the option to send SCPs in the form of `text files`, `audio files` or `discord messages` 
 
-- use `!scp` command to get scps, `!scp random` | `!scp number_of_scp`
+- use `!scp` command to get scps, `!scp random` | `!scp number_of_scp` *(you can now also search for SCP-J's as the SCP search function now allows for Alphabets to be typed in)*
 - use `!h` to get help and guides
 - use `!class` to get scp classifications and their info, `use !class name_of_class` to get individual classes
 - use `!mtf` to get information about MTF and their names, `use *!mtf number_as_listed* ` to get the individual MTF
