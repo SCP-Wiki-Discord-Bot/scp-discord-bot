@@ -17,7 +17,7 @@ const axios = require('axios')
 client.on('ready', async () => {
   console.log('discord bot connected')
   client.user.setActivity('type !h for help')
-  await axios.get(process.env.APIURL)
+  await axios.get(process.env.APIURL + '/ping')
     .then(res => {
       console.log(res.data.message)
     })
@@ -143,7 +143,7 @@ client.on('message', async (message) => {
   const commands = message.content.split(' ')
   const binding = commands[0]
   if (binding.toLowerCase() === "!handshake") {
-    await axios.get(process.env.APIURL)
+    await axios.get(process.env.APIURL + '/ping')
       .then(res => { 
         message.reply(res.data.message)
       })
