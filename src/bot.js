@@ -11,12 +11,16 @@ const sendMtf = require('./functions/mtf/send-mtf')
 const { mtfList } = require('./messages/mtf')
 const sendSite = require('./functions/sites/send-site')
 const sendArea = require('./functions/areas/send-area')
+const axios = require('axios')
 
 // notifies that the bot is ready to be used - Dev Console
-client.on('ready', () => {
+client.on('ready', async () => {
   console.log('discord bot connected')
-
   client.user.setActivity('type !h for help')
+  await axios.get(process.env.APIURL)
+    .then(res => {
+      console.log(res.data.message)
+    })
 })
 
 /* SCP FUNCTION */
@@ -131,6 +135,18 @@ client.on('message', (message) => {
   if (binding.toLowerCase() === '!area') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     sendArea(mode, message.channel)
+  }
+})
+
+// dev handshake
+client.on('message', async (message) => {
+  const commands = message.content.split(' ')
+  const binding = commands[0]
+  if (binding.toLowerCase() === "!handshake") {
+    await axios.get(process.env.APIURL)
+      .then(res => { 
+        message.reply(res.data.message)
+      })
   }
 })
 
