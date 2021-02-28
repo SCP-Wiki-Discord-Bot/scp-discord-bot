@@ -11,7 +11,6 @@ const sendMtf = require('./functions/mtf/send-mtf')
 const { mtfList } = require('./messages/mtf')
 const sendSite = require('./functions/sites/send-site')
 const sendArea = require('./functions/areas/send-area')
-const axios = require('axios')
 
 // notifies that the bot is ready to be used - Dev Console
 client.on('ready', async () => {
