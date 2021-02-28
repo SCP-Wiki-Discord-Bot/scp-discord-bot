@@ -18,9 +18,12 @@ const User = require('./db/userModel')
 client.on('ready', async () => {
   console.log('discord bot connected')
   client.user.setActivity('type !h for help')
+  // mongoose connection
   await mongoose.connect(process.env.MONGO_URI + '/scp-discord-bot-users', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('mongodb database connected'))
     .catch(e => console.log((e)))
+
+  // reset coupons every one day
   setInterval(async () => {
     await User.updateMany({ premium: false }, { coupons: 100 })
   }, 86400000) // one day
@@ -43,17 +46,22 @@ client.on('message', async (message) => {
 
     let userCoupons = 0
 
+    // check if user exists
     await User.find({ discordId: message.author.id })
       .then(async (d) => {
-        if (d.length === 0) {
+        if (d.length === 0) { // if user doesn't exist
+          // create new user
           await User.create({ discordId: message.author.id, coupons: 100, couponLimit: 100, premium: false })
             .then(() => { message.channel.send('user registered into foundation database') })
         } else {
+          // check number of coupons
           userCoupons = d[0].coupons
-          if (userCoupons > 0) {
+          if (userCoupons > 0) { // if coupons are not empty
+            // subtract 5 coupons from existing coupons and save
             await User.findOneAndUpdate({ discordId: message.author.id }, { coupons: d[0].coupons - 5 })
           }
           if (userCoupons <= 0) {
+            // if you are out of coupons, end process
             return message.channel.send('error : you ran out of coupons, please try again tommorow')
           }
         }
@@ -102,6 +110,7 @@ client.on('message', async (message) => {
   const commands = message.content.split(' ')
   const binding = commands[0]
   const mode = commands[1] || 'list'
+
   if (binding === '!class') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     const result = sendClasses(mode, message.channel)
@@ -115,6 +124,7 @@ client.on('message', async (message) => {
 client.on('message', async (message) => {
   const binding = message.content.substr(0, 4)
   const mode = message.content.substr(4, message.content.length - 1).trim() || 'list'
+
   if (binding === '!mtf') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     if (mode === 'list') {
@@ -161,6 +171,7 @@ client.on('message', async (message) => {
   const commands = message.content.split(' ')
   const binding = commands[0]
   const mode = commands[1] || 'list'
+
   if (binding.toLowerCase() === '!area') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     sendArea(mode, message.channel)
