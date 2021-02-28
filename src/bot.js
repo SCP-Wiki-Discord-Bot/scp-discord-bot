@@ -17,14 +17,10 @@ const axios = require('axios')
 client.on('ready', async () => {
   console.log('discord bot connected')
   client.user.setActivity('type !h for help')
-  await axios.get(process.env.APIURL + '/ping')
-    .then(res => {
-      console.log(res.data.message)
-    })
 })
 
 /* SCP FUNCTION */
-client.on('message', (message) => {
+client.on('message', async (message) => {
   // parsing message commands
   const commands = message.content.toLowerCase().split(' ')
   const binding = commands[0] // must be !scp
@@ -58,7 +54,7 @@ client.on('message', (message) => {
 })
 
 /* HELP FUNCTION */
-client.on('message', (message) => {
+client.on('message', async (message) => {
   if (message.content.trim() === '!h') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     const embed = new Discord.MessageEmbed()
@@ -69,7 +65,7 @@ client.on('message', (message) => {
 })
 
 /* SCP CLASSIFICATION FUNCTION */
-client.on('message', (message) => {
+client.on('message', async (message) => {
   const commands = message.content.split(' ')
   const binding = commands[0]
   const mode = commands[1] || 'list'
@@ -83,7 +79,7 @@ client.on('message', (message) => {
 })
 
 /* MOBILE TASK FORCE FUNCTION */
-client.on('message', (message) => {
+client.on('message', async (message) => {
   const binding = message.content.substr(0, 4)
   const mode = message.content.substr(4, message.content.length - 1).trim() || 'list'
   if (binding === '!mtf') {
@@ -109,7 +105,7 @@ client.on('message', (message) => {
 })
 
 /* SCP FOUNDATION SITES FUNCTION */
-client.on('message', (message) => {
+client.on('message', async (message) => {
   const commands = message.content.split(' ')
   const binding = commands[0]
   const feature = commands[1]
@@ -128,25 +124,13 @@ client.on('message', (message) => {
 })
 
 /* SCP FOUNDATION AREAS FUNCTION */
-client.on('message', (message) => {
+client.on('message', async (message) => {
   const commands = message.content.split(' ')
   const binding = commands[0]
   const mode = commands[1] || 'list'
   if (binding.toLowerCase() === '!area') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     sendArea(mode, message.channel)
-  }
-})
-
-// dev handshake
-client.on('message', async (message) => {
-  const commands = message.content.split(' ')
-  const binding = commands[0]
-  if (binding.toLowerCase() === "!handshake") {
-    await axios.get(process.env.APIURL + '/ping')
-      .then(res => { 
-        message.reply(res.data.message)
-      })
   }
 })
 
