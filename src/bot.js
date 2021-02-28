@@ -11,11 +11,22 @@ const sendMtf = require('./functions/mtf/send-mtf')
 const { mtfList } = require('./messages/mtf')
 const sendSite = require('./functions/sites/send-site')
 const sendArea = require('./functions/areas/send-area')
+const mongoose = require('mongoose')
+const User = require('./db/userModel')
 
 // notifies that the bot is ready to be used - Dev Console
 client.on('ready', async () => {
   console.log('discord bot connected')
   client.user.setActivity('type !h for help')
+  await mongoose.connect(process.env.MONGO_URI + '/scp-discord-bot-users', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('mongodb database connected'))
+    .catch(e => console.log((e)))
+  setInterval(async () => {
+    await User.updateMany({ premium: false }, { coupons: 100 })
+  }, 86400000) // one day
+  setInterval(async () => {
+    await User.updateMany({ premium: true }, { coupons: 500 })
+  })
 })
 
 /* SCP FUNCTION */
@@ -29,25 +40,48 @@ client.on('message', async (message) => {
   // checking key binding
   if (binding === '!scp') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
-    // check for modes
-    if (mode === 'random') {
+
+    let userCoupons = 0
+
+    await User.find({ discordId: message.author.id })
+      .then(async (d) => {
+        if (d.length === 0) {
+          await User.create({ discordId: message.author.id, coupons: 100, couponLimit: 100, premium: false })
+            .then(() => { message.channel.send('user registered into foundation database') })
+        } else {
+          userCoupons = d[0].coupons
+          if (userCoupons > 0) {
+            await User.findOneAndUpdate({ discordId: message.author.id }, { coupons: d[0].coupons - 5 })
+          }
+          if (userCoupons <= 0) {
+            return message.channel.send('error : you ran out of coupons, please try again tommorow')
+          }
+        }
+      })
+
+    // check for number of coupons
+    console.log(userCoupons)
+    if (userCoupons > 0) {
+      // check for modes
+      if (mode === 'random') {
       // checking output mode
-      if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
-        scrape(rng(), message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
-      } else {
-        message.channel.send('error : invalid output mode')
-      }
-    } else if (mode === 'suggest') {
-      suggest(message.channel)
-    } else if (mode) {
+        if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
+          scrape(rng(), message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
+        } else {
+          message.channel.send('error : invalid output mode')
+        }
+      } else if (mode === 'suggest') {
+        suggest(message.channel)
+      } else if (mode) {
       // checking output mode
-      if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
-        scrape(mode, message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
+        if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
+          scrape(mode, message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
+        } else {
+          return message.channel.send('error : invalid output mode')
+        }
       } else {
-        return message.channel.send('error : invalid output mode')
+        return message.channel.send('error : invalid scp selection mode')
       }
-    } else {
-      return message.channel.send('error : invalid scp selection mode')
     }
   }
 })
@@ -130,6 +164,34 @@ client.on('message', async (message) => {
   if (binding.toLowerCase() === '!area') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     sendArea(mode, message.channel)
+  }
+})
+
+/* dev function check users */
+client.on('message', async (message) => {
+  const commands = message.content.split(' ')
+  const binding = commands[0]
+
+  if (binding === '!users') {
+    await User.find({})
+      .then(d => {
+        if (d.length !== 0) {
+          message.channel.send(d)
+        } else {
+          message.channel.send('no users found')
+        }
+      })
+  }
+})
+
+/* dev function delete all users */
+client.on('message', async (message) => {
+  const commands = message.content.split(' ')
+  const binding = commands[0]
+
+  if (binding === '!clear') {
+    await User.deleteMany({})
+      .then(message.channel.send('cleared DB'))
   }
 })
 

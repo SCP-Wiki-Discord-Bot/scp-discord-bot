@@ -15,7 +15,8 @@
     "axios": "^0.21.1",
     "discord.js": "^12.5.1",
     "gtts": "^0.2.1",
-    "jsdom": "^16.4.0"
+    "jsdom": "^16.4.0",
+    "mongoose": "^5.11.18"
   },
   "devDependencies": {
     "eslint": "^7.18.0",
