@@ -51,9 +51,9 @@ client.on('message', async (message) => {
       .then(async (d) => {
         if (d.length === 0) { // if user doesn't exist
           // create new user
-          await User.create({ discordId: message.author.id, coupons: 95,  premium: false })
+          await User.create({ discordId: message.author.id, coupons: 95, premium: false })
             .then(() => { message.channel.send('user registered into foundation database') })
-          userCoupons = 100
+          userCoupons = 95
         } else {
           // check number of coupons
           userCoupons = d[0].coupons
@@ -69,7 +69,6 @@ client.on('message', async (message) => {
       })
 
     // check for number of coupons
-    console.log(userCoupons)
     if (userCoupons > 0) {
       // check for modes
       if (mode === 'random') {
@@ -176,6 +175,30 @@ client.on('message', async (message) => {
   if (binding.toLowerCase() === '!area') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     sendArea(mode, message.channel)
+  }
+})
+
+// profile command
+client.on('message', async (message) => {
+  const commands = message.content.split(' ')
+  const binding = commands[0]
+
+  if (binding === '!profile') {
+    // make embed containing user profile store in database
+    const userId = message.author.id
+    const embed = new Discord.MessageEmbed()
+    embed.setTitle(`Profile of ${message.author.username}`)
+    embed.setColor('white')
+    await User.findOne({ discordId: userId })
+      .then(d => {
+        if (d) {
+          embed.setDescription(`${d.coupons} coupons left\n${d.premium ? 'Premium' : 'No Premium'}`)
+          return message.reply(embed)
+        } else {
+          message.reply('you are not registered')
+        }
+      })
+      .catch(e => message.reply(`error: ${e.message}`))
   }
 })
 
