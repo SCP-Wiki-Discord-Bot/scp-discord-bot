@@ -53,6 +53,7 @@ client.on('message', async (message) => {
           // create new user
           await User.create({ discordId: message.author.id, coupons: 100, couponLimit: 100, premium: false })
             .then(() => { message.channel.send('user registered into foundation database') })
+          userCoupons = 100
         } else {
           // check number of coupons
           userCoupons = d[0].coupons
