@@ -51,7 +51,7 @@ client.on('message', async (message) => {
       .then(async (d) => {
         if (d.length === 0) { // if user doesn't exist
           // create new user
-          await User.create({ discordId: message.author.id, coupons: 100, couponLimit: 100, premium: false })
+          await User.create({ discordId: message.author.id, coupons: 95,  premium: false })
             .then(() => { message.channel.send('user registered into foundation database') })
           userCoupons = 100
         } else {
