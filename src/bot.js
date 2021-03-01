@@ -19,6 +19,10 @@ client.on('ready', async () => {
   console.log('discord bot connected')
   client.user.setActivity('type !h for help')
   // mongoose connection
+  mongoose.set('useFindAndModify', false)
+  mongoose.set('useCreateIndex', true)
+  mongoose.set('useNewUrlParser', true)
+
   await mongoose.connect(process.env.MONGO_URI + '/scp-discord-bot-users', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('mongodb database connected'))
     .catch(e => console.log((e)))
