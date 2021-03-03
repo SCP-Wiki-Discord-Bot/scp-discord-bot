@@ -78,7 +78,7 @@ client.on('message', async (message) => {
       if (mode === 'random') {
       // checking output mode
         if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
-          scrape(rng(), message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
+          scrape(rng(), message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc, message.author.id))
         } else {
           message.channel.send('error : invalid output mode')
         }
@@ -87,7 +87,7 @@ client.on('message', async (message) => {
       } else if (mode) {
       // checking output mode
         if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
-          scrape(mode, message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
+          scrape(mode, message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc, message.author.id))
         } else {
           return message.channel.send('error : invalid output mode')
         }
@@ -197,6 +197,7 @@ client.on('message', async (message) => {
       .then(d => {
         if (d) {
           embed.setDescription(`${d.coupons} coupons left\n${d.premium ? 'Premium' : 'No Premium'}`)
+          embed.setThumbnail(message.author.avatarURL())
           return message.reply(embed)
         } else {
           message.reply('you are not registered')
