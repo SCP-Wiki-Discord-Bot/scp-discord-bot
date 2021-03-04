@@ -4,11 +4,11 @@ const { scrape } = require('./functions/scp/scrape')
 const rng = require('./functions/scp/rng')
 const outputs = require('./functions/scp/outputs')
 const suggest = require('./functions/suggestions')
-const msg = require('./messages/index')
+const msg = require('./static/index')
 const sendClasses = require('./functions/classes/send-classes')
 const scrapeMtf = require('./functions/mtf/scrape-mtf')
 const sendMtf = require('./functions/mtf/send-mtf')
-const { mtfList } = require('./messages/mtf')
+const { mtfList } = require('./static/mtf')
 const sendSite = require('./functions/sites/send-site')
 const sendArea = require('./functions/areas/send-area')
 const mongoose = require('mongoose')
@@ -78,7 +78,7 @@ client.on('message', async (message) => {
       if (mode === 'random') {
       // checking output mode
         if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
-          scrape(rng(), message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
+          scrape(rng(), message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc, message.author.id))
         } else {
           message.channel.send('error : invalid output mode')
         }
@@ -87,7 +87,7 @@ client.on('message', async (message) => {
       } else if (mode) {
       // checking output mode
         if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
-          scrape(mode, message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc))
+          scrape(mode, message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc, message.author.id))
         } else {
           return message.channel.send('error : invalid output mode')
         }
@@ -197,12 +197,33 @@ client.on('message', async (message) => {
       .then(d => {
         if (d) {
           embed.setDescription(`${d.coupons} coupons left\n${d.premium ? 'Premium' : 'No Premium'}`)
+          embed.setThumbnail(message.author.avatarURL())
           return message.reply(embed)
         } else {
           message.reply('you are not registered')
         }
       })
       .catch(e => message.reply(`error: ${e.message}`))
+  }
+})
+
+client.on('message', async (message) => {
+  const commands = message.content.split(' ')
+  const binding = commands[0]
+
+  if (binding === '!register') {
+    await User.findOne({ discordId: message.author.id })
+      .then(async (d) => {
+        if (d) {
+          return message.reply('Looks like you have been already registered agent')
+        } else {
+          await User.create({ discordId: message.author.id, coupons: 100, premium: false })
+            .then(() => message.reply('agent has been succesfully registered'))
+        }
+      })
+      .catch(e => {
+        return message.channel.send(`error: ${e.message}`)
+      })
   }
 })
 

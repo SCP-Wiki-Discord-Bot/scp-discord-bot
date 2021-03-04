@@ -3,21 +3,28 @@ const convertAudio = require('./audio')
 const shorten = require('./shorten')
 const path = require('path')
 const discord = require('discord.js')
+const User = require('../../db/userModel')
 
-function outputs (title, content, type, channel, imgSrc) {
+async function outputs (title, content, type, channel, imgSrc, discordId) {
   if (type === 'message') {
-    if (imgSrc !== null || imgSrc !== undefined) {
+    if (imgSrc && content.length > 0) {
       // making a discord embed to send a picture
       const imgEmbed = new discord.MessageEmbed()
-        .setTitle(title)
         .setImage(imgSrc)
       channel.send(imgEmbed)
-    }
-
-    // shortening the content so the app doesnt crash
-    const shortenedContent = shorten(content, 2000)
-    for (let i = 0; i < shortenedContent.length; i++) {
-      channel.send(shortenedContent[i])
+    } else if (content.length > 0) {
+      // shortening the content so the app doesnt crash
+      const shortenedContent = shorten(content, 2000)
+      for (let i = 0; i < shortenedContent.length; i++) {
+        channel.send(shortenedContent[i])
+      }
+    } else {
+      channel.send('something seems to be wrong, please try again')
+      await User.findOne({ discordId })
+        .then(async (d) => {
+          await User.findOneAndUpdate({ discordId }, { coupons: d.coupons + 5 })
+          channel.send('your coupons have been restored')
+        })
     }
   }
   if (type === 'text') {

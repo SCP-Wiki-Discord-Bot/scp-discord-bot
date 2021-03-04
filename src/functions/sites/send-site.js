@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const facilities = require('../../messages/facilities')
+const facilities = require('../../static/facilities')
 
 function sendSite (feature, mode, channel) {
   // makes sure that the mode is always lowercase for easy of use
