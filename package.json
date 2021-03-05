@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "./node_modules/.bin/nodemon src/bot.js",
+    "dev": "source token.sh && ./node_modules/.bin/nodemon src/bot.js",
     "start": "node src/index.js",
     "lint": "./node_modules/.bin/eslint --fix src"
   },
