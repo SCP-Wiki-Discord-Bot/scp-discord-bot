@@ -12,8 +12,27 @@ async function outputs (title, content, type, channel, imgSrc, discordId) {
       const imgEmbed = new discord.MessageEmbed()
         .setImage(imgSrc)
       channel.send(imgEmbed)
+      // shortening the content so the app doesnt crash
+      // making the text more readable when sent as a messsage
+      content = content.replace('Item #:', '`Item #:`')
+      content = content.replace('Object Class:', '> Object Class:')
+      content = content.replace('Special Containment Procedures:', '\n`Special Containment Procedures:`')
+      content = content.replace('Description:', '\n`Description:`')
+      content = content.replace('Addendum', '`Addendum`')
+
+      const shortenedContent = shorten(content, 2000)
+      for (let i = 0; i < shortenedContent.length; i++) {
+        channel.send(shortenedContent[i])
+      }
     } else if (content.length > 0) {
       // shortening the content so the app doesnt crash
+      // making the text more readable when sent as a messsage
+      content = content.replace('Item #:', '`Item #:`')
+      content = content.replace('Object Class:', '> Object Class:')
+      content = content.replace('Special Containment Procedures:', '\n`Special Containment Procedures:`')
+      content = content.replace('Description:', '\n`Description:`')
+      content = content.replace('Addendum', '`Addendum`')
+
       const shortenedContent = shorten(content, 2000)
       for (let i = 0; i < shortenedContent.length; i++) {
         channel.send(shortenedContent[i])
