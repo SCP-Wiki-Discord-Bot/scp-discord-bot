@@ -33,7 +33,7 @@ client.on('ready', async () => {
   }, 86400000) // one day
   setInterval(async () => {
     await User.updateMany({ premium: true }, { coupons: 500 })
-  })
+  }, 86400000)
 })
 
 /* SCP FUNCTION */
