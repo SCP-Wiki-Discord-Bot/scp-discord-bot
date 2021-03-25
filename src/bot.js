@@ -13,6 +13,11 @@ const sendSite = require('./functions/sites/send-site')
 const sendArea = require('./functions/areas/send-area')
 const mongoose = require('mongoose')
 const User = require('./db/userModel')
+const autoReg = require('./db/auto-reg')
+const manualReg = require('./db/manual-reg')
+const profileCreator = require('./db/profile-creator')
+const clearUser = require('./db/[dev]clear-users')
+const findAllUsers = require('./db/[dev]all-users')
 
 // notifies that the bot is ready to be used - Dev Console
 client.on('ready', async () => {
@@ -49,28 +54,9 @@ client.on('message', async (message) => {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
 
     let userCoupons = 0
-
-    // check if user exists
-    await User.find({ discordId: message.author.id })
-      .then(async (d) => {
-        if (d.length === 0) { // if user doesn't exist
-          // create new user
-          await User.create({ discordId: message.author.id, coupons: 95, premium: false })
-            .then(() => { message.channel.send('user registered into foundation database') })
-          userCoupons = 95
-        } else {
-          // check number of coupons
-          userCoupons = d[0].coupons
-          if (userCoupons > 0) { // if coupons are not empty
-            // subtract 5 coupons from existing coupons and save
-            await User.findOneAndUpdate({ discordId: message.author.id }, { coupons: d[0].coupons - 5 })
-          }
-          if (userCoupons <= 0) {
-            // if you are out of coupons, end process
-            return message.channel.send('error : you ran out of coupons, please try again tommorow')
-          }
-        }
-      })
+    await autoReg(message).then(coupons => {
+      userCoupons = coupons
+    })
 
     // check for number of coupons
     if (userCoupons > 0) {
@@ -189,21 +175,7 @@ client.on('message', async (message) => {
 
   if (binding === '!profile') {
     // make embed containing user profile store in database
-    const userId = message.author.id
-    const embed = new Discord.MessageEmbed()
-    embed.setTitle(`Profile of ${message.author.username}`)
-    embed.setColor('white')
-    await User.findOne({ discordId: userId })
-      .then(d => {
-        if (d) {
-          embed.setDescription(`${d.coupons} coupons left\n${d.premium ? 'Premium' : 'No Premium'}`)
-          embed.setThumbnail(message.author.avatarURL())
-          return message.reply(embed)
-        } else {
-          message.reply('you are not registered')
-        }
-      })
-      .catch(e => message.reply(`error: ${e.message}`))
+    await profileCreator(message)
   }
 })
 
@@ -212,18 +184,7 @@ client.on('message', async (message) => {
   const binding = commands[0]
 
   if (binding === '!register') {
-    await User.findOne({ discordId: message.author.id })
-      .then(async (d) => {
-        if (d) {
-          return message.reply('Looks like you have been already registered agent')
-        } else {
-          await User.create({ discordId: message.author.id, coupons: 100, premium: false })
-            .then(() => message.reply('agent has been succesfully registered'))
-        }
-      })
-      .catch(e => {
-        return message.channel.send(`error: ${e.message}`)
-      })
+    await manualReg(message)
   }
 })
 
@@ -233,14 +194,7 @@ client.on('message', async (message) => {
   const binding = commands[0]
 
   if (binding === '!users') {
-    await User.find({})
-      .then(d => {
-        if (d.length !== 0) {
-          message.channel.send(d)
-        } else {
-          message.channel.send('no users found')
-        }
-      })
+    await findAllUsers(message)
   }
 })
 
@@ -250,8 +204,7 @@ client.on('message', async (message) => {
   const binding = commands[0]
 
   if (binding === '!clear') {
-    await User.deleteMany({})
-      .then(message.channel.send('cleared DB'))
+    await clearUser(message)
   }
 })
 

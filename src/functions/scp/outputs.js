@@ -28,7 +28,7 @@ async function outputs (title, content, type, channel, imgSrc, discordId) {
         }
       })
     } else {
-      channel.send('something seems to be wrong, please try again')
+      channel.send('we couldn\'t retrieve the file, the O5 council will be notified')
       await User.findOne({ discordId }).then(async (d) => {
         await User.findOneAndUpdate({ discordId }, { coupons: d.coupons + 5 })
         channel.send('your coupons have been restored')
