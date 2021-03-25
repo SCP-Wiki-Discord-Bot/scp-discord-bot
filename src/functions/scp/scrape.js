@@ -44,12 +44,6 @@ async function scrape (code, channel) {
       channel.send(`error : ${e.message}`)
     })
 
-  // making the text more readable when sent as a messsage
-  text = text.replace('Item #:', '`Item #:`')
-  text = text.replace('Object Class:', '> Object Class:')
-  text = text.replace('Special Containment Procedures:', '\n`Special Containment Procedures:`')
-  text = text.replace('Description:', '\n`Description:`')
-  text = text.replace('Addendum', '`Addendum`')
   return { title, text, imgSrc }
 }
 
