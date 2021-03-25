@@ -17,7 +17,7 @@ const User = require('./db/userModel')
 // notifies that the bot is ready to be used - Dev Console
 client.on('ready', async () => {
   console.log('discord bot connected')
-  client.user.setActivity('type !h for help')
+  client.user.setActivity('!h for help', { type: 'LISTENING' })
   // mongoose connection
   mongoose.set('useFindAndModify', false)
   mongoose.set('useCreateIndex', true)
