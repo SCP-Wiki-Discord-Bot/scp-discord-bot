@@ -46,11 +46,11 @@ client.on('message', async (message) => {
   // parsing message commands
   const commands = message.content.toLowerCase().split(' ')
   const binding = commands[0] // must be !scp
-  const mode = commands[1] // must be `random` a number or `suggest`
+  const mode = commands[1]// must be `random` a number or `suggest`
   const outputMode = commands[2] || 'message'
 
   // checking key binding
-  if (binding === '!scp') {
+  if (binding.toLowerCase() === '!scp') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
 
     let userCoupons = 0
@@ -61,14 +61,14 @@ client.on('message', async (message) => {
     // check for number of coupons
     if (userCoupons > 0) {
       // check for modes
-      if (mode === 'random') {
+      if (mode.toLowerCase() === 'random') {
       // checking output mode
         if (outputMode === 'message' || outputMode === 'text' || outputMode === 'audio') {
           scrape(rng(), message.channel).then(({ title, text, imgSrc }) => outputs(title, text, outputMode, message.channel, imgSrc, message.author.id))
         } else {
           message.channel.send('error : invalid output mode')
         }
-      } else if (mode === 'suggest') {
+      } else if (mode.toLowerCase() === 'suggest') {
         suggest(message.channel)
       } else if (mode) {
       // checking output mode
@@ -86,7 +86,7 @@ client.on('message', async (message) => {
 
 /* HELP FUNCTION */
 client.on('message', async (message) => {
-  if (message.content.trim() === '!h') {
+  if (message.content.trim().toLowerCase() === '!h' || message.content.trim().toLowerCase() === '!help') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     const embed = new Discord.MessageEmbed()
       .setTitle('HELP PAGE')
@@ -101,7 +101,7 @@ client.on('message', async (message) => {
   const binding = commands[0]
   const mode = commands[1] || 'list'
 
-  if (binding === '!class') {
+  if (binding.toLowerCase() === '!class') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     const result = sendClasses(mode, message.channel)
     if (result === 'class not found') {
@@ -115,7 +115,7 @@ client.on('message', async (message) => {
   const binding = message.content.substr(0, 4)
   const mode = message.content.substr(4, message.content.length - 1).trim() || 'list'
 
-  if (binding === '!mtf') {
+  if (binding.toLowerCase() === '!mtf') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     if (mode === 'list') {
       const embed = new Discord.MessageEmbed()
@@ -144,7 +144,7 @@ client.on('message', async (message) => {
   const feature = commands[1]
   const mode = commands[2] || 'list'
 
-  if (binding === '!site') {
+  if (binding.toLowerCase() === '!site') {
     message.reply(msg.ready[Math.floor(Math.random() * (2 - 0)) + 0])
     if (feature === 'info') {
       sendSite('info', mode, message.channel)
@@ -173,7 +173,7 @@ client.on('message', async (message) => {
   const commands = message.content.split(' ')
   const binding = commands[0]
 
-  if (binding === '!profile') {
+  if (binding.toLowerCase() === '!profile') {
     // make embed containing user profile store in database
     await profileCreator(message)
   }
@@ -183,8 +183,36 @@ client.on('message', async (message) => {
   const commands = message.content.split(' ')
   const binding = commands[0]
 
-  if (binding === '!register') {
+  if (binding.toLowerCase() === '!register') {
     await manualReg(message)
+  }
+})
+
+// Ping command
+client.on('message', async (message) => {
+  const binding = message.content.split(' ')[0]
+  if (binding.toLowerCase() === '!ping') {
+    const msg = await message.channel.send('Pinging...')
+    const Embed = new Discord.MessageEmbed()
+      .setTitle('Pong!')
+      .setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
+      .setDescription(
+          `⌛ Latency is ${Math.floor(
+            msg.createdTimestamp - message.createdTimestamp
+          )}ms\n⏲️ API Ping is ${Math.round(client.ws.ping)}`
+      )
+      .setColor('#fb644c')
+    msg.edit(Embed)
+    msg.edit('\u200b')
+  }
+})
+
+client.on('message', async (message) => {
+  const binding = message.content.split(' ')[0]
+  if (binding.toLowerCase() === '!stats') {
+    const embed = new Discord.MessageEmbed()
+      .setTitle(`SCP Bot Serving in ${client.guilds.cache.size} servers worldwide 🌎`)
+    message.channel.send(embed)
   }
 })
 
