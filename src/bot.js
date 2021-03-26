@@ -18,6 +18,7 @@ const manualReg = require('./db/manual-reg')
 const profileCreator = require('./db/profile-creator')
 const clearUser = require('./db/[dev]clear-users')
 const findAllUsers = require('./db/[dev]all-users')
+const userCount = require('./db/userCount')
 
 // notifies that the bot is ready to be used - Dev Console
 client.on('ready', async () => {
@@ -211,7 +212,9 @@ client.on('message', async (message) => {
   const binding = message.content.split(' ')[0]
   if (binding.toLowerCase() === '!stats') {
     const embed = new Discord.MessageEmbed()
-      .setTitle(`SCP Bot Serving in ${client.guilds.cache.size} servers worldwide 🌎`)
+      .setTitle('SCP Wiki Bot Statistics')
+      .addField('Servers', `SCP Bot Serving in ${client.guilds.cache.size} servers worldwide 🌎`)
+      .addField('Users', `There are ${await userCount()} users of SCP Wiki Bot 👩‍💻👨‍💻`)
     message.channel.send(embed)
   }
 })
