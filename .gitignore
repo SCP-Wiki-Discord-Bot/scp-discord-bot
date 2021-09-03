@@ -1,3 +1,4 @@
 node_modules
 token.sh
 notes.txt
+.env

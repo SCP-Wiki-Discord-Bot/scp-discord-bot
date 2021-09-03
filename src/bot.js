@@ -19,6 +19,7 @@ const profileCreator = require('./db/profile-creator')
 const clearUser = require('./db/[dev]clear-users')
 const findAllUsers = require('./db/[dev]all-users')
 const userCount = require('./db/userCount')
+require('dotenv').config()
 
 // notifies that the bot is ready to be used - Dev Console
 client.on('ready', async () => {

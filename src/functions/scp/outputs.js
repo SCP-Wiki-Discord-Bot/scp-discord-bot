@@ -3,7 +3,6 @@ const convertAudio = require('./audio')
 const path = require('path')
 const discord = require('discord.js')
 const User = require('../../db/userModel')
-const scrapeImg = require('./scrape-img')
 const formatter = require('./formatter')
 
 async function outputs (title, content, type, channel, imgSrc, discordId) {
@@ -18,15 +17,10 @@ async function outputs (title, content, type, channel, imgSrc, discordId) {
         channel.send(shortenedContent[i])
       }
     } else if (content.length > 0) {
-      scrapeImg(title).then(img => {
-        const embed = new discord.MessageEmbed().setImage(img)
-        channel.send(embed)
-
         const shortenedContent = formatter(content)
         for (let i = 0; i < shortenedContent.length; i++) {
           channel.send(shortenedContent[i])
         }
-      })
     } else {
       channel.send('we couldn\'t retrieve the file, the O5 council will be notified')
       await User.findOne({ discordId }).then(async (d) => {
